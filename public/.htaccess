@@ -1,0 +1,50 @@
+# ============================================================
+# PETLANDIA - .htaccess (carpeta public)
+# ============================================================
+
+Options -Indexes
+Options +FollowSymLinks
+
+RewriteEngine On
+
+# ------------------------------------------------------------
+# 1. Si el archivo o directorio existe, servirlo directamente
+# ------------------------------------------------------------
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# ------------------------------------------------------------
+# 2. Rutas amigables opcionales (puedes expandirlas después)
+# ------------------------------------------------------------
+# Ejemplo: /productos → catalog.html
+# RewriteRule ^productos/?$ views/catalog.html [L]
+# RewriteRule ^carrito/?$ views/cart.html [L]
+# RewriteRule ^login/?$ views/login.html [L]
+
+# ------------------------------------------------------------
+# 3. Seguridad: bloquear acceso a archivos ocultos
+# ------------------------------------------------------------
+<FilesMatch "^\.">
+    Require all denied
+</FilesMatch>
+
+# ------------------------------------------------------------
+# 4. Headers de seguridad básicos
+# ------------------------------------------------------------
+<IfModule mod_headers.c>
+    Header set X-Content-Type-Options "nosniff"
+    Header set X-Frame-Options "SAMEORIGIN"
+    Header set X-XSS-Protection "1; mode=block"
+</IfModule>
+
+# ------------------------------------------------------------
+# 5. Charset por defecto
+# ------------------------------------------------------------
+AddDefaultCharset UTF-8
+
+# ------------------------------------------------------------
+# 6. Proteger archivos sensibles por si acaso
+# ------------------------------------------------------------
+<FilesMatch "\.(env|log|sql|md|json|lock)$">
+    Require all denied
+</FilesMatch>

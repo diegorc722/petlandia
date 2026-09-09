@@ -1,0 +1,23 @@
+# ============================================================
+# PETLANDIA - .htaccess (raíz del proyecto)
+# ============================================================
+
+# Desactivar listado de directorios
+Options -Indexes
+
+# Seguir enlaces simbólicos
+Options +FollowSymLinks
+
+# Motor de reescritura
+RewriteEngine On
+
+# ------------------------------------------------------------
+# 1. Proteger carpetas sensibles
+# ------------------------------------------------------------
+RewriteRule ^(app|database|storage)/ - [F,L]
+
+# ------------------------------------------------------------
+# 2. Redirigir todo el tráfico hacia /public
+# ------------------------------------------------------------
+RewriteCond %{REQUEST_URI} !^/public/
+RewriteRule ^(.*)$ public/$1 [L]
